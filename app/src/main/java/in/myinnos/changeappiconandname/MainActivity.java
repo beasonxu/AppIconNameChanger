@@ -1,9 +1,13 @@
 package in.myinnos.changeappiconandname;
 
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,42 +33,98 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                activeName = "in.myinnos.changeappiconandname.MainActivitySettings";
-                disableNames.add("in.myinnos.changeappiconandname.MainActivityMessage");
-                disableNames.add("in.myinnos.changeappiconandname.MainActivityCamera");
-                setAppIcon(activeName, disableNames);
+                final PackageManager manager=getPackageManager();
+                Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity.setting")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity.chrome")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                        MainActivity.this.finish();
+
+                    }
+                });
+
+
             }
         });
 
         btMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activeName = "in.myinnos.changeappiconandname.MainActivityMessage";
-                disableNames.add("in.myinnos.changeappiconandname.MainActivityCamera");
-                disableNames.add("in.myinnos.changeappiconandname.MainActivitySettings");
-                setAppIcon(activeName, disableNames);
+                final PackageManager manager=getPackageManager();
+                Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity.setting")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity.chrome")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+                        MainActivity.this.finish();
+
+                    }
+                });
             }
         });
 
         btCamera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                activeName = "in.myinnos.changeappiconandname.MainActivityCamera";
-                disableNames.add("in.myinnos.changeappiconandname.MainActivityMessage");
-                disableNames.add("in.myinnos.changeappiconandname.MainActivitySettings");
-                setAppIcon(activeName, disableNames);
+            public void onClick(View view) {
+                final PackageManager manager=getPackageManager();
+                Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity.setting")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                        manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity.chrome")
+                                ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                        MainActivity.this.finish();
+
+                    }
+                });
+            }
+        });
+
+
+
+    }
+
+    private void changeicon() {
+
+        // enable old icon
+
+
+    }
+
+    private void newicon() {
+
+        // enable old icon
+        final PackageManager manager=getPackageManager();
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                // enable new icon
+                manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivitySettings")
+                        ,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                manager.setComponentEnabledSetting(new ComponentName(MainActivity.this,"in.myinnos.changeappiconandname.MainActivity")
+                        ,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+
+              //  Toast.makeText(MainActivity.this,"Enable New Icon" ,Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
-    public void setAppIcon(String activeName, List<String> disableNames) {
 
-        new AppIconNameChanger.Builder(MainActivity.this)
-                .activeName(activeName) // String
-                .disableNames(disableNames) // List<String>
-                .packageName(BuildConfig.APPLICATION_ID)
-                .build()
-                .setNow();
-    }
 }
